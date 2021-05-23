@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE tiles-definitions PUBLIC  
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"  
+       "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+	<definition name="layouts"
+		template="/WEB-INF/layouts/layout.jsp">
+
+		<put-attribute name="content" value="" />
+		
+	</definition>
+	
+	
+	<definition name="login"
+		template="/WEB-INF/layouts/login.jsp">
+	</definition>
+
+	<definition name="home" extends="layouts">
+		<put-attribute name="content"
+			value="/WEB-INF/views/home.jsp" />
+	</definition>
+
+	<definition name="postlist" extends="layouts">
+		<put-attribute name="content"
+			value="/WEB-INF/views/postlist.jsp" />
+	</definition>
+
+	<definition name="admin" extends="layouts">
+		<put-attribute name="content"
+			value="/WEB-INF/views/admin.jsp" />
+	</definition>
+
+	<definition name="postconfig" extends="layouts">
+		<put-attribute name="content"
+			value="/WEB-INF/views/postconfig.jsp" />
+	</definition>
+		
+	<definition name="edit" extends="layouts">
+		<put-attribute name="content"
+			value="/WEB-INF/views/edit.jsp" />
+	</definition>
+	
+	<definition name="createpost" extends="layouts">
+		<put-attribute name="content"
+			value="/WEB-INF/views/createpost.jsp" />
+	</definition>
+	
+	<definition name="contact" extends="layouts">
+		<put-attribute name="content"
+			value="/WEB-INF/views/contact.jsp" />
+	</definition>
+	
+	<definition name="403" extends="layouts">
+		<put-attribute name="content"
+			value="/WEB-INF/views/403.jsp" />
+	</definition>
+	
+	<definition name="createaccount" extends="layouts">
+		<put-attribute name="content"
+			value="/WEB-INF/views/createaccount.jsp" />
+	</definition>
+
+</tiles-definitions>  
