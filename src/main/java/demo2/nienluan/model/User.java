@@ -23,7 +23,7 @@ public class User implements java.io.Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id")
+	@Column(name = "id_user")
 	private Integer id;
 
 	@Column(name = "username")

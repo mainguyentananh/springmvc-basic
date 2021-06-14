@@ -10,23 +10,23 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import demo2.nienluan.model.Page_Token;
-import demo2.nienluan.model.Post_FB;
-import demo2.nienluan.service.Page_TokenService;
+import demo2.nienluan.model.Config;
+import demo2.nienluan.model.Post;
+import demo2.nienluan.service.ConfigService;
 import demo2.nienluan.service.UserService;
-import demo2.nienluan.service.post_fbService;
+import demo2.nienluan.service.PostService;
 
 @Controller
 public class postController {
 	
 	@Autowired
-	private post_fbService pfbs;
+	private PostService ps;
 	
 	@Autowired
 	private UserService us;
 	
 	@Autowired
-	private Page_TokenService ptks;
+	private ConfigService cs;
 	
 	
 	
@@ -35,41 +35,52 @@ public class postController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String name = auth.getName();
 		Integer iduser = us.findIdUser(name);
-		Post_FB pfb = new Post_FB(); 
-		Page_Token ptk = ptks.getAll();	
+		Post pfb = new Post(); 
+		
+		//ktra xem co config ch
+		boolean check = cs.checkCreate(iduser);
+		if(check == true) {
+			Config newptk = new Config();
+			md.addAttribute("ptk", newptk);
+			md.addAttribute("Post_FB", pfb);
+			return "createpost";
+		}
+		
+		
+		Config ptk = cs.getConFigById(iduser);	
 		md.addAttribute("Post_FB", pfb);
 		md.addAttribute("ptk", ptk);
-		md.addAttribute("iduser", iduser);
 		
 		return "createpost";
 	}
 	
 	@RequestMapping(value = "/save", method = RequestMethod.POST , produces = "application/x-www-form-urlencoded;charset=UTF-8")
-	public String savepfb(@ModelAttribute("Post_FB") Post_FB pfb,ModelMap md ) {
-		pfbs.save(pfb);
+	public String savepfb(@ModelAttribute("Post_FB") Post pfb,ModelMap md ) {
+		ps.save(pfb);
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String name = auth.getName();
 		Integer iduser = us.findIdUser(name);
-		Post_FB newpfb = new Post_FB(); 
-		Page_Token ptk = ptks.getAll();	
+		
+		Post newpfb = new Post(); 
+		Config ptk = cs.getConFigById(iduser);
 		md.addAttribute("Post_FB", newpfb);
 		md.addAttribute("ptk", ptk);
-		md.addAttribute("iduser", iduser);
+		
 		md.addAttribute("message", "<div class=\"btn btn-success btn-sm rounded-pill\">Post Success <i class=\"fas fa-check-circle\"></i></div>");
 		return "createpost";
 	}
 	
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
 	public String deletefbp(@PathVariable(value = "id") Integer id) {
-		pfbs.delete(id);
+		ps.delete(id);
 		return "redirect:/admin";
 	}
 	
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
 	public String checkpost(@PathVariable(value = "id") Integer id) {
-		Post_FB npfb =  pfbs.getpfb(id);
+		Post npfb =  ps.getpfb(id);
 		npfb.setCheck_post(true);
-		pfbs.save(npfb);
+		ps.save(npfb);
 		return "redirect:/admin";
 	}
 	

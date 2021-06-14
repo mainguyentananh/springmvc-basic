@@ -13,13 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import demo2.nienluan.model.Post_FB;
+import demo2.nienluan.model.Post;
 import demo2.nienluan.model.Role;
 import demo2.nienluan.model.User;
 import demo2.nienluan.model.User_Role;
-import demo2.nienluan.service.Page_TokenService;
 import demo2.nienluan.service.UserService;
-import demo2.nienluan.service.post_fbService;
+import demo2.nienluan.service.PostService;
 import demo2.nienluan.service.roleService;
 import demo2.nienluan.service.user_roleService;
 
@@ -27,7 +26,7 @@ import demo2.nienluan.service.user_roleService;
 public class loginController {
 
 	@Autowired
-	private post_fbService pfbs;
+	private PostService pfbs;
 
 	@Autowired
 	private UserService us;
@@ -38,23 +37,18 @@ public class loginController {
 	@Autowired
 	private user_roleService urs;
 
-	@Autowired
-	private Page_TokenService ptks;
-	
-
-	
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(@RequestParam(value = "error", required = false) String error, ModelMap model) {
 		if (error != null) {
 			model.addAttribute("message", "<div class=\"btn btn-danger btn-sm rounded-pill\">your password is wrong!</div>");
 		}
-		ptks.resetPageToken();
 		return "login";
 	}
 
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
 	public String user() {
+	
 		return "home";
 	}
 
@@ -63,14 +57,14 @@ public class loginController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String name = auth.getName();
 		Integer iduser = us.findIdUser(name);
-		List<Post_FB> listpost = pfbs.listPostFindById(iduser);
+		List<Post> listpost = pfbs.listPostFindById(iduser);
 		md.addAttribute("listpost", listpost);
 		return "postlist";
 	}
 
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
 	public String admin(ModelMap md) {
-		List<Post_FB> listpost = pfbs.getAll();
+		List<Post> listpost = pfbs.getAll();
 		md.addAttribute("listpost", listpost);
 		return "admin";
 	}
@@ -107,6 +101,7 @@ public class loginController {
 		//User_Role
 		User getNewUser = us.loadUserByName(getName);
 		Role getRoleUser = rs.findbyRoleName("ROLE_USER");
+		
 		User_Role NewUser = new User_Role();
 		NewUser.setUser(getNewUser);
 		NewUser.setRole(getRoleUser);
@@ -123,14 +118,14 @@ public class loginController {
 	
 	@RequestMapping(value = "/admin/listposted", method = RequestMethod.GET)
 	public String getListPosted(ModelMap md) {
-		List<Post_FB> listpost = pfbs.getListPosted();
+		List<Post> listpost = pfbs.getListPosted();
 		md.addAttribute("listpost", listpost);
 		return "admin";
 	}
 	
 	@RequestMapping(value = "/admin/listnotposted", method = RequestMethod.GET)
 	public String getListNotPosted(ModelMap md) {
-		List<Post_FB> listpost = pfbs.getListNotPosted();
+		List<Post> listpost = pfbs.getListNotPosted();
 		md.addAttribute("listpost", listpost);
 		return "admin";
 	}

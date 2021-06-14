@@ -14,7 +14,7 @@
     
     <div class="visually-hidden">
      	
-     	<form:input path="id_user" type="hidden" value="${iduser}" />
+     	<form:input path="id_user" type="hidden" value="${ptk.id_user}" />
       </div>
     <div class=" col-md-6 col-sm-12" >
      	<label class="text-dark">Page ID</label>

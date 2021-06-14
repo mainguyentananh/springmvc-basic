@@ -60,4 +60,9 @@
 			value="/WEB-INF/views/createaccount.jsp" />
 	</definition>
 
+	<definition name="createconfig" extends="layouts">
+		<put-attribute name="content"
+			value="/WEB-INF/views/createconfig.jsp" />
+	</definition>
+
 </tiles-definitions>  

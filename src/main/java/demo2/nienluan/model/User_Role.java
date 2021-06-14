@@ -12,21 +12,21 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "user_role")
+@Table(name = "tUser_Role")
 public class User_Role implements Serializable  {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@Column(name = "id")
+	@Column(name = "id_UserRole")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id_user_role;
 	
 	@ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "id_user")
     private	User user;
 
 	@ManyToOne
-    @JoinColumn(name = "role_id")
+    @JoinColumn(name = "id_role")
     private	Role role;
 
 	public User_Role() {
